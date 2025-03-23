@@ -2,7 +2,7 @@ import sqlite3
 from datetime import datetime
 
 
-def save_db_history(username: str, role: str, content: str, limit=3):
+def save_db_history(username: str, role: str, content: str, limit=5):
     """Функция для сохранения сообщения с ограничением"""
     with sqlite3.connect(database="db/DataBase.db") as db:
         # Проверяем количество записей для данного пользователя и роли

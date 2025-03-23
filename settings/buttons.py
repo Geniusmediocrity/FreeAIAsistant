@@ -10,7 +10,6 @@ def get_inline_keyboard():
     [InlineKeyboardButton(text="Qwen/QwQ-32B", callback_data="Qwen/QwQ-32B")],
     [InlineKeyboardButton(text="Qwen2.5-Coder-32B", callback_data="Qwen/Qwen2.5-Coder-32B-Instruct")],
     [InlineKeyboardButton(text="Qwen2.5-1.5B", callback_data="Qwen/Qwen2.5-1.5B-Instruct")],
-    [InlineKeyboardButton(text="Qwen2-VL-7B", callback_data="Qwen/Qwen2-VL-7B-Instruct")],
     [InlineKeyboardButton(text="ozone-ai", callback_data="ozone-ai/0x-lite")],
     [InlineKeyboardButton(text="Llama-3.2-90B-Vision-Instruct", callback_data="meta-llama/Llama-3.2-90B-Vision-Instruct")],
     [InlineKeyboardButton(text="Mistral-Large-2411", callback_data="mistralai/Mistral-Large-Instruct-2411")],
@@ -32,6 +31,15 @@ def get_inline_keyboard():
     [InlineKeyboardButton(text="jinaai/ReaderLM-v2", callback_data="jinaai/ReaderLM-v2")],
     [InlineKeyboardButton(text="openbmb/MiniCPM3-4B", callback_data="openbmb/MiniCPM3-4B")],
     [InlineKeyboardButton(text="ibm-granite-3.1-8b", callback_data="ibm-granite/granite-3.1-8b-instruct")],
+    [InlineKeyboardButton(text="❌ cancel ❌", callback_data="cancel")]
+    ], resize_keyboard=True)
+    return keyboard
+
+
+def get_setvismodel_keybord():
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text="Qwen2-VL-7B", callback_data="Qwen/Qwen2-VL-7B-Instruct")],
+    [InlineKeyboardButton(text="Llama-3.2-90B-Vision", callback_data="meta-llama/Llama-3.2-90B-Vision-Instruct")],
     [InlineKeyboardButton(text="❌ cancel ❌", callback_data="cancel")]
     ], resize_keyboard=True)
     return keyboard

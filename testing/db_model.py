@@ -48,6 +48,16 @@ def update_db_visualmodel(username: str, visualmodel: str):
 
 
 
+#? В main.py не используется, нужен на всякий случай, и чтобы, если что почистить пользователей
+def clear_users(username: str):
+    with sqlite3.connect(database="db/DataBase.db") as db:
+        cursor = db.cursor()
+        query = """ DELETE * FROM users_model 
+            WHERE username = ?"""
+        cursor.execute(query, (username, ))
+        db.commit()
+
+
 
 # with sqlite3.connect("db/DataBase.db") as db:
 #     cursor = db.cursor()

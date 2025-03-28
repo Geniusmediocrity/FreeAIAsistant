@@ -1,6 +1,10 @@
+import os
+import json
+
 from docx import Document  # Для чтения .docx
 from win32com import client  # Для чтения .doc (только на Windows)
-import os
+from bs4 import BeautifulSoup
+import pandas as pd
 
 
 class ReadFiles:
@@ -38,6 +42,8 @@ class ReadFiles:
             print(e)
         finally:
             os.remove(file_path)
+            
+            
 
 
     def read_file(self, file_path):
@@ -48,3 +54,4 @@ class ReadFiles:
             return self.__read_docx(file_path=file_path)
         elif file_path.endswith('.doc'):
             return self.__read_doc(file_path=file_path)
+        

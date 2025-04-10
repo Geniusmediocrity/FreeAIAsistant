@@ -1,4 +1,4 @@
-from settings.tokn import Tokns
+from settings.config import Config
 import requests
 
 
@@ -18,7 +18,7 @@ class CorrectMessages:
                     "content": f"Translate this text from Russian into English {text}. Print only the translated text and nothing else."
                 }
         ]}
-        response = requests.post(Tokns.URL, json=data, headers=Tokns.HEADERS)
+        response = requests.post(Config.URL, json=data, headers=Config.HEADERS)
         data = (response.json())['choices'][0]['message']['content'].split('</think>\n\n')[1]
         return data
 
@@ -37,7 +37,7 @@ class CorrectMessages:
                 }
         ]}
         
-        response = requests.post(Tokns.URL, json=data, headers=Tokns.HEADERS)
+        response = requests.post(Config.URL, json=data, headers=Config.HEADERS)
         data = (response.json())['choices'][0]['message']['content'].split('</think>\n\n')[1]
         return data
     

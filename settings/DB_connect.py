@@ -9,7 +9,7 @@ class DataBase():
         
     #! --- Работа с историей запросов ---
     def save_db_history(self, user_id: str, role: str, content: str, limit=5):
-        """Методы для сохранения сообщения с ограничением"""
+        """Метод для сохранения сообщения с ограничением"""
         with self.__connection:
             # Проверяем количество записей для данного пользователя и роли
             query = """ SELECT COUNT(*) FROM chat_history 
@@ -33,7 +33,7 @@ class DataBase():
             
             
     def load_db_history(self, user_id: str):
-        """Методы для загрузки истории"""
+        """Метод для загрузки истории"""
         with self.__connection:
             query = """ SELECT role, content FROM chat_history 
             WHERE user_id = ? 
@@ -45,10 +45,10 @@ class DataBase():
 
 
     def clear_db_history(self, user_id: str):
-        """Методы для очистки истории"""
+        """Метод для очистки истории"""
         with self.__connection:
             query = "DELETE FROM chat_history WHERE user_id = ?"
-            self.__cursor.execute(query, (user_id))
+            self.__cursor.execute(query, (user_id,))
             self.__connection.commit()
             
             
@@ -63,7 +63,7 @@ class DataBase():
     def delete_db_user(self, user_id):
         with self.__connection:
             query = """DELETE FROM users_model WHERE user_id = ?"""
-            self.__cursor.execute(query, (user_id))
+            self.__cursor.execute(query, (user_id,))
             self.clear_db_history(user_id=user_id)
             self.__connection.commit()
                         
@@ -110,36 +110,34 @@ class DataBase():
             self.__cursor.execute(query, (visualmodel, user_id))
             self.__connection.commit()
             
-    #? В main.py не используется, нужен на всякий случай, и чтобы, если что почистить пользователей
-    def _clear_users(self, user_id: str):
+    # ⁡⁣⁢⁡⁣⁣⁢В main.py не используются, нужны на всякий случай, и чтобы, ⁡
+    # ⁡⁣⁣⁢если что почистить пользователей или пересоздать таблицы⁡
+    def __clear_users(self, user_id: str):
         with self.connection:
             query = """ DELETE * FROM users_model 
                 WHERE user_id = ?"""
             self.__cursor.execute(query, (user_id, ))
             self.connection.commit()
-
-
-
             
-# with sqlite3.connect("db/DataBase.db") as db:
-#     cursor = db.cursor()
-#     query = '''
-# CREATE TABLE IF NOT EXISTS chat_history(
-# user_id INTEGER NOT NULL,
-# role TEXT NOT NULL,
-# content TEXT NOT NULL,
-# timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-# )
-# '''
-#     cursor.execute(query)
+    def __create_chat_history(self):
+        with self.__connection:
+            query = '''
+        CREATE TABLE IF NOT EXISTS chat_history(
+            user_id INTEGER NOT NULL,
+            role TEXT NOT NULL,
+            content TEXT NOT NULL,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+        '''
+            self.__cursor.execute(query)
 
-# with sqlite3.connect("db/DataBase.db") as db:
-#     cursor = db.cursor()
-#     query = """
-#     CREATE TABLE IF NOT EXISTS users_model(
-#         user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-#         model TEXT NOT NULL,
-#         visual_model TEXT NOT NULL
-#     )
-#     """
-#     cursor.execute(query)
+    def __create_users_model(self):
+        with self.__connection:
+            query = """
+            CREATE TABLE IF NOT EXISTS users_model(
+                user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                model TEXT NOT NULL,
+                visual_model TEXT NOT NULL
+            )
+            """
+            self.__cursor.execute(query)

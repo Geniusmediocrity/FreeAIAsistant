@@ -7,20 +7,19 @@ import requests
 
 from settings.correct_messages import CorrectMessages
 
-from settings.read_files import ReadFiles
+from settings.read_files import read_file
 
 from settings.DB_connect import DataBase
 
 from settings.buttons import Buttons
-from settings.tokn import Tokns
+from settings.config import Config
 from settings.messages import Messages
-
 
 
 
 logging.basicConfig(level=logging.INFO)
 
-bot = Bot(Tokns.TELEGRAM_TOKEN)
+bot = Bot(Config.TELEGRAM_TOKEN)
 dp = Dispatcher()    
 DB = DataBase(database="db/DataBase.db") #? коннект с БД
 
@@ -28,7 +27,7 @@ DB = DataBase(database="db/DataBase.db") #? коннект с БД
 #? Базовые команды:
 @dp.message(CommandStart())
 async def command_start(message: types.Message):
-    """⁡⁢⁣⁣Начоло использования"""
+    """⁡⁢⁣⁣Начало использования"""
     DB.start_db_model(user_id=message.from_user.id)
     await message.reply(text=Messages.START_MESSAGE, parse_mode = 'HTML')
 
@@ -127,7 +126,7 @@ async def filter_messages(message: types.Message):
         DB.save_db_history(user_id=user_id, role="user", content=message_text)
 
 
-        process_mes = await message.reply(text=f"Запрос принят, @{message.from_user.username}!\n{Messages.ANSWER_PROCESSING}", parse_mode="HTML")
+        process_mes = await message.reply(text=f"Запрос принят, @{message.from_user.username}!\n{Messages.ANSWER_PROCESSING.format("40")}", parse_mode="HTML")
 
 
         model = DB.read_db_model(user_id=user_id)
@@ -141,7 +140,7 @@ async def filter_messages(message: types.Message):
             "model": model,
             "messages": messages
         }
-        response = requests.post(Tokns.URL, headers=Tokns.HEADERS, json=data)
+        response = requests.post(Config.URL, headers=Config.HEADERS, json=data)
         data = response.json()
 
 
@@ -169,13 +168,13 @@ async def filter_messages(message: types.Message):
 async def handle_message(message: types.Message):
     """ Обработчик изображений """
     user_id = message.from_user.id
-    process_mes = await message.reply(text=f"Запрос принят, @{message.from_user.username}!\n{Messages.ANSWER_PROCESSING}", parse_mode="HTML")
+    process_mes = await message.reply(text=f"Запрос принят, @{message.from_user.username}!\n{Messages.ANSWER_PROCESSING.format("60")}", parse_mode="HTML")
     question = CorrectMessages.translate_to_english(text=message.caption) if message.caption else "What is in this image?"
     
     file_id = message.photo[-1].file_id # ⁡⁢⁣⁣Берем фото лучшего качества⁡
     file = await bot.get_file(file_id)
     file_path = file.file_path
-    file_url = f"https://api.telegram.org/file/bot{Tokns.TELEGRAM_TOKEN}/{file_path}" # ⁡⁢⁣⁣Получем ссылку на изображение⁡
+    file_url = f"https://api.telegram.org/file/bot{Config.TELEGRAM_TOKEN}/{file_path}" # ⁡⁢⁣⁣Получем ссылку на изображение⁡
     
     print("-" * 185)
     print(f"{user_id} photo: {file_url}\nquestion: {question}") #? для вывода информации о запросе пользователя
@@ -201,7 +200,7 @@ async def handle_message(message: types.Message):
             ]
         }
         
-        response = requests.post(Tokns.URL, json=data, headers=Tokns.HEADERS)    
+        response = requests.post(Config.URL, json=data, headers=Config.HEADERS)    
         data = response.json()
         text = CorrectMessages.translate_to_rus(text=data["choices"][0]["message"]["content"]) # ⁡⁢⁣⁣Получаем нужный текст из ⁡⁢⁣⁣JSON файла⁡ и переводим его
         
@@ -224,12 +223,12 @@ async def handle_message(message: types.Message):
 @dp.message(lambda message: types.File)
 async def handle_document(message: types.Message):
     
-    ALLOWED_EXTENSIONS = ['.txt', '.doc', '.docx']
+    ALLOWED_EXTENSIONS = ['.txt', '.doc', '.docx', ".xml", ".html", ".xlsx", ".csv", ".json"]
     document = message.document
 
     # Получаем имя файла
     file_name = document.file_name
-    process_mes = await message.reply(text=f"Запрос принят, @{message.from_user.username}!\n{Messages.ANSWER_PROCESSING}", parse_mode="HTML")
+    process_mes = await message.reply(text=f"Запрос принят, @{message.from_user.username}!\n{Messages.ANSWER_PROCESSING.format("45")}", parse_mode="HTML")
 
     # Проверяем, что файл имеет допустимое расширение
     if any(file_name.endswith(ext) for ext in ALLOWED_EXTENSIONS):
@@ -247,8 +246,17 @@ async def handle_document(message: types.Message):
         await bot.download_file(file_path=file_path, destination=save_path)
 
         try:
-            text = ReadFiles.read_file(file_path=save_path) # Читаем содержимое файла
-            await message.reply(text=f"Содержимое файла:\n{text}", parse_mode="HTML") # Отправляем содержимое пользователю
+            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            text = read_file(file_path=save_path) # Читаем содержимое файла
+            await message.reply(text="Содержимое файла:", parse_mode="HTML")
+            
+            if file_name.endswith(".xlsx") or file.endswith(".csv"):
+                for txt in text:
+                    await message.reply(text=txt, parse_mode="HTML") # Отправляем содержимое пользователю
+                    
+            else:
+                for txt in CorrectMessages.split_message(text):
+                    await message.reply(text=txt, parse_mode="HTML") # Отправляем содержимое пользователю
                 
         except Exception as e:
             await message.reply(text="Возникла непредвиденная ошибка.\nМы уже стараемся все исправить.\nНапишите в поддержку: @Geniusmediocrity", parse_mode="HTML")

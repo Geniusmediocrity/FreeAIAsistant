@@ -31,15 +31,15 @@
 - [x] Создание configs. Переход на dotenv
 - [x] Уменьшени main.py
 - [x] Создание handlers
-- [] Переделать на новую СУБД, на PostgreSQL
-- [] Переделать подключение к СУБД и БД в целом
-- [] Изменить тип хранения Истории запросов. Хранить в массиве
+- [ ] Переделать на новую СУБД, на PostgreSQL
+- [ ] Переделать подключение к СУБД и БД в целом
+- [ ] Изменить тип хранения Истории запросов. Хранить в массиве
 - [x] Закончить наконец Возможность работы с файлами, а именно с текстом
 - [x] Добавить логирование + декоратор/хендлер для логирования хендлеров сообщений
-- [] correct_messages.py
-- [] photo_hadlers.py
-- [] models_hadlers.py
-- [] history_hadlers.py
-- [] base_hadlers.py
-- [] admin_hadlers.py
+- [ ] correct_messages.py
+- [ ] photo_hadlers.py
+- [ ] models_hadlers.py
+- [ ] history_hadlers.py
+- [ ] base_hadlers.py
+- [ ] admin_hadlers.py
 

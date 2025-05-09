@@ -1,4 +1,11 @@
 tokn.py
 test.py
 
-__pycache__/
+testing
+
+*.log
+
+.venv
+.env
+
+**/__pycache__

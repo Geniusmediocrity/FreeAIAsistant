@@ -3,8 +3,6 @@ import json
 
 from docx import Document  # Для чтения .docx
 from win32com import client  # Для чтения .doc (только на Windows)
-from bs4 import BeautifulSoup
-import pandas as pd
 
 
 
@@ -42,50 +40,6 @@ def __read_doc(file_path):
         os.remove(file_path)
         
         
-def __read_excel(file_path):
-    """Чтение .xlsx файлов"""
-    try:
-        df = pd.read_excel(io=file_path)
-        return [row for row in df.loc[:,:]]
-    except Exception as e:
-        print(e)
-    finally:
-        os.remove(file_path)
-
-def __read_csv(file_path):
-    """Чтение .csv файлов"""
-    try:
-        df = pd.read_csv(io=file_path, delimiter=",")
-        return df
-    except:
-        return "Ошибка.\nСкорее всего разделитель не является ','"
-    finally:
-        os.remove(file_path)
-    
-
-def __read_html(file_path):
-    """Чтение .html файлов"""
-    try:
-        with open(file=file_path, mode="rt", encoding="utf-8") as file:
-            text = file.read()
-        return (BeautifulSoup(markup=text, features="html.parser")).text
-    except Exception as e:
-        print(e)
-    finally:
-        os.remove(file_path)
-    
-def __read_xml(file_path):
-    """Чтение .xml файлов"""
-    try:
-        with open(file=file_path, mode="rt", encoding="utf-8") as file:
-            text = file.read()
-        return (BeautifulSoup(markup=text, features="lxml-xml")).text
-    except Exception as e:
-        print(e)
-    finally:
-        os.remove(file_path)
-        
-        
 def __read_json(file_path):
     """Чтение .json файлов"""
     try:
@@ -106,14 +60,12 @@ def read_file(file_path):
         return __read_docx(file_path=file_path)
     elif file_path.endswith('.doc'):
         return __read_doc(file_path=file_path)
-    elif file_path.endswith('.xlsx'):
-        return __read_excel(file_path=file_path)
-    elif file_path.endswith('.csv'):
-        return __read_csv(file_path=file_path)
-    elif file_path.endswith('.html'):
-        return __read_html(file_path=file_path)
-    elif file_path.endswith('.xml'):
-        return __read_xml(file_path=file_path)
+    # elif file_path.endswith('.csv'):
+    #     return __read_csv(file_path=file_path)
+    # elif file_path.endswith('.html'):
+    #     return __read_html(file_path=file_path)
+    # elif file_path.endswith('.xml'):
+    #     return __read_xml(file_path=file_path)
     elif file_path.endswith('.json'):
         return __read_json(file_path=file_path)
     else:

@@ -1,4 +1,4 @@
-from settings.config import Config
+from configs import URL, HEADERS
 import requests
 
 
@@ -18,7 +18,7 @@ class CorrectMessages:
                     "content": f"Translate this text from Russian into English {text}. Print only the translated text and nothing else."
                 }
         ]}
-        response = requests.post(Config.URL, json=data, headers=Config.HEADERS)
+        response = requests.post(URL, json=data, headers=HEADERS)
         data = (response.json())['choices'][0]['message']['content'].split('</think>\n\n')[1]
         return data
 
@@ -37,7 +37,7 @@ class CorrectMessages:
                 }
         ]}
         
-        response = requests.post(Config.URL, json=data, headers=Config.HEADERS)
+        response = requests.post(URL, json=data, headers=HEADERS)
         data = (response.json())['choices'][0]['message']['content'].split('</think>\n\n')[1]
         return data
     

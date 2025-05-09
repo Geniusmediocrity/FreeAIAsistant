@@ -54,19 +54,16 @@ def __read_json(file_path):
         
 def read_file(file_path):
     """Чтение файла в зависимости от его расширения."""
-    if file_path.endswith('.txt'):
+    if file_path.endswith('.txt') or \
+    file_path.endswith('.csv') or \
+    file_path.endswith('.html') or \
+    file_path.endswith('.xml'):
         return __read_txt(file_path=file_path)
     elif file_path.endswith('.docx'):
         return __read_docx(file_path=file_path)
     elif file_path.endswith('.doc'):
         return __read_doc(file_path=file_path)
-    # elif file_path.endswith('.csv'):
-    #     return __read_csv(file_path=file_path)
-    # elif file_path.endswith('.html'):
-    #     return __read_html(file_path=file_path)
-    # elif file_path.endswith('.xml'):
-    #     return __read_xml(file_path=file_path)
     elif file_path.endswith('.json'):
         return __read_json(file_path=file_path)
     else:
-        return "Ошибка.\nНеверный формат файла"
+        raise ValueError ("Ошибка.\nНеверный формат файла")

@@ -1,70 +1,60 @@
-import logging
-
 from aiogram import Router
 from aiogram import types
 from aiogram.filters import Command
 
-from utils.buttons import Buttons
 from configs import DB
-from settings.messages import Messages
+
+from utils.buttons import Buttons
+from utils.decorators import msg_handler
 
 
 models_router = Router(name=__name__)
 
-#? Посмотреть используемую модель:
+#? See using model:
+
 @models_router.message(Command("model"))
+@msg_handler
 async def get_model(message: types.Message):
-    """Посмотреть выбранную модель"""
-    try:
-        model = DB.read_db_model(user_id=message.from_user.id)
-        await message.reply(text=f"Текущая модель: {model}", parse_mode="HTML")
-    except Exception as e:
-        await message.answer(text=Messages.ERROR_MESSAGE)
-        logging.exception(f"Ошибка в model: {e}")
+    """See using model"""
+    model = DB.read_db_model(user_id=message.from_user.id)
+    await message.reply(text=f"Текущая модель: {model}", parse_mode="HTML")
     
+
 @models_router.message(Command("visualmodel"))
+@msg_handler
 async def get_visualmodel(message: types.Message):
-    """Посмотреть выбранную модель"""
-    try:
-        visual_model = DB.read_db_visualmodel(user_id=message.from_user.id)
-        await message.reply(text=f"Текущая модель для работы с фото: {visual_model}", parse_mode="HTML")
-    except Exception as e:
-        await message.answer(text=Messages.ERROR_MESSAGE)
-        logging.exception(f"Ошибка в visualmodel: {e}")
+    """see using visualmodel"""
+    visual_model = DB.read_db_visualmodel(user_id=message.from_user.id)
+    await message.reply(text=f"Текущая модель для работы с фото: {visual_model}", parse_mode="HTML")
     
     
-#? Выбор модели использования:
-@models_router.message(Command("setmodel"))    
+#? Set model for using:
+
+@models_router.message(Command("setmodel"))  
+@msg_handler  
 async def setmodel(message: types.Message):
-    """Выбрать модель для использования"""
-    try:
-        await message.reply(text="Выбери модель:", reply_markup=Buttons.get_inline_keyboard())
-    except Exception as e:
-        await message.answer(text=Messages.ERROR_MESSAGE)
-        logging.exception(f"Ошибка в setmodel: {e}")
+    """Set model for using"""
+    await message.reply(text="Выбери модель:", reply_markup=Buttons.get_inline_keyboard())
+    
     
 @models_router.message(Command("setvisualmodel"))    
+@msg_handler
 async def setvisualmodel(message: types.Message):
-    """Выбрать фото модель для использования"""
-    try:
-        await message.reply(text="Выбери модель:", reply_markup=Buttons.get_setvismodel_keybord())
-    except Exception as e:
-        await message.answer(text=Messages.ERROR_MESSAGE)
-        logging.exception(f"Ошибка в setvisualmodel: {e}")
+    """Set visual model for using"""
+    await message.reply(text="Выбери модель:", reply_markup=Buttons.get_setvismodel_keybord())
+
 
 @models_router.callback_query()
+@msg_handler
 async def callback_setmodel(callback: types.CallbackQuery):
-    """Кнопки для выбора модели использования"""
-    try:
-        await callback.message.edit_reply_markup(reply_markup=None)
-        data = callback.data
-        if data != "cancel":
-            if data in ["meta-llama/Llama-3.2-90B-Vision-Instruct", "Qwen/Qwen2-VL-7B-Instruct"]:
-                DB.update_db_visualmodel(user_id=callback.from_user.id, visualmodel=data)
-            else:
-                DB.update_db_model(user_id=callback.from_user.id, model=data)
-            await callback.message.answer(text=f"Текущая модель: {data}", parse_mode="HTML")
+    """Callback Buttons for set model for using"""
+    await callback.message.edit_reply_markup(reply_markup=None)
+    data = callback.data
+    if data != "cancel":
+        if data in ["meta-llama/Llama-3.2-90B-Vision-Instruct", "Qwen/Qwen2-VL-7B-Instruct"]:
+            DB.update_db_visualmodel(user_id=callback.from_user.id, visualmodel=data)
         else:
-            await callback.message.answer(text="/cancel", parse_mode="HTML")
-    except Exception as e:
-        logging.exception(f"Ошибка в callback_setmodel: {e}")
+            DB.update_db_model(user_id=callback.from_user.id, model=data)
+        await callback.message.answer(text=f"Текущая модель: {data}", parse_mode="HTML")
+    else:
+        await callback.message.answer(text="/cancel", parse_mode="HTML")

@@ -11,7 +11,7 @@ dp.include_router(main_handler_router)
 
 
 async def main():
-    """Главный скрипт"""
+    """Main script"""
     setup_logger()
     await bot(DeleteWebhook(drop_pending_updates=True))
     await dp.start_polling(bot)

@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 from aiogram import Bot, Dispatcher
 
-from utils.PgDB_connect import DataBase
+from db import DataBase
 
 
 load_dotenv()

@@ -1,7 +1,6 @@
-import logging
-
 from aiogram import Router
 from aiogram import types
+from aiogram import F
 
 from utils.messages import Messages
 from utils.correct_messages import CorrectMessages
@@ -15,9 +14,9 @@ from configs import DB, bot, TELEGRAM_TOKEN
 photo_router = Router(name=__name__)
 
 
-@photo_router.message(lambda message: message.photo)
+@photo_router.message(F.photo)
 @msg_handler
-async def handle_message(message: types.Message):
+async def handle_photo(message: types.Message):
     """Users photo handler """
     user_id = message.from_user.id
     process_mes = await message.reply(text=Messages.ANSWER_PROCESSING.format(message.from_user.username, "60"), parse_mode="HTML")
@@ -32,7 +31,7 @@ async def handle_message(message: types.Message):
     print(f"{user_id} photo: {file_url}\nquestion: {question}") #? для вывода информации о запросе пользователя
     
     # Сохраняем вопрос пользователя
-    DB.save_db_history(user_id=user_id, role="user", content=f"Photo: {file_url}. {question}")
+    DB.save_db_history(user_id=user_id, role="user", content=f"Photo: {file_url}. Question: {question}")
     
     
     # запрос к API

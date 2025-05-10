@@ -1,5 +1,6 @@
-from os import remove as os_remove_file
+import asyncio
 
+# uv pip install aiofiles PyPDF2 python-docx pandas
 import aiofiles
 from docx import Document # Для чтения .docx
 from PyPDF2 import PdfReader
@@ -40,31 +41,37 @@ async def __read_xlsx_file(file_path: str) -> str:
 
 async def read_file(file_path: str) -> str:
     """Основная функция для выбора типа файла и его чтения"""
-    
-    if file_path.endswith(('.txt', '.js', '.py', '.java', '.css', '.html', '.log', '.c', '.c++', '.cc', '.Cs', '.cs', '.Csharp', '.csharp', '.xml', '.json', '.csv', '.cxx', '.cpp')):
-        result = await __read_text_file(file_path)
+    if file_path.endswith(('.txt', '.js', '.py', '.java', '.css', '.html', '.log', '.c', '.c++', '.cc', '.Cs', '.cs', '.Csharp', '.csharp', '.xml', '.json', '.csv')):
+        return await __read_text_file(file_path)
     elif file_path.endswith('.docx'):
-        result = await __read_docx_file(file_path)
+        return await __read_docx_file(file_path)
     elif file_path.endswith('.pdf'):
-        result = await __read_pdf_file(file_path)
+        return await __read_pdf_file(file_path)
     elif file_path.endswith('.xlsx'):
-        result = await __read_xlsx_file(file_path)
+        return await __read_xlsx_file(file_path)
     else:
         raise ValueError(f"Unsupported file format: {file_path}")
-    
-    os_remove_file(path=file_path)
-    return result
+
+# Пример использования
+async def main():
+    file = 'test.csv'
+    result = await read_file(file)
+    print(result)
+
+# Запуск асинхронного кода
+if __name__ == "__main__":
+    asyncio.run(main())
     
 #* GOOD:
-# 1.  css
-# 2.  txt
-# 3.  html
-# 4.  json
-# 5.  py
-# 6.  js
-# 7.  java
-# 8.  log
-# 9.  c
+# 1. css
+# 2. txt
+# 3. html
+# 4. json
+# 5. py
+# 6. js
+# 7. java
+# 8. log
+# 9. c
 # 10. c++
 # 11. cs
 # 12. csharp

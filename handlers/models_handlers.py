@@ -4,7 +4,7 @@ from aiogram.filters import Command
 
 from configs import DB
 
-from utils.buttons import Buttons
+from utils.keyboard_utils import Buttons
 from utils.decorators import msg_handler
 
 
@@ -34,14 +34,14 @@ async def get_visualmodel(message: types.Message):
 @msg_handler  
 async def setmodel(message: types.Message):
     """Set model for using"""
-    await message.reply(text="Выбери модель:", reply_markup=Buttons.get_inline_keyboard())
+    await message.reply(text="Выбери модель:", reply_markup=Buttons.get_setmodel_inline_kb())
     
     
 @models_router.message(Command("setvisualmodel"))    
 @msg_handler
 async def setvisualmodel(message: types.Message):
     """Set visual model for using"""
-    await message.reply(text="Выбери модель:", reply_markup=Buttons.get_setvismodel_keybord())
+    await message.reply(text="Выбери модель:", reply_markup=Buttons.get_setvismodel_inline_kb())
 
 
 @models_router.callback_query()

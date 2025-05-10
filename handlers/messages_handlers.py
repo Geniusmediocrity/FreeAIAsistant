@@ -1,5 +1,6 @@
 from aiogram import Router
 from aiogram import types
+from aiogram import F
 
 from utils.decorators import msg_handler
 
@@ -14,7 +15,7 @@ from utils.correct_messages import CorrectMessages
 messages_router = Router(name=__name__)
 
 
-@messages_router.message(lambda message: message.text)
+@messages_router.message(F.text)
 @msg_handler
 async def handle_messages(message: types.Message):
     """Handler of users requests:

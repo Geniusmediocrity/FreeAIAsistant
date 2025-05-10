@@ -5,7 +5,7 @@ class Buttons:
     """ ? Создание кнопок для выбора модели: """
     
     @staticmethod
-    def get_inline_keyboard():
+    def get_setmodel_inline_kb() -> InlineKeyboardButton:
         keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="DeepSeek-R1", callback_data="deepseek-ai/DeepSeek-R1")],
         [InlineKeyboardButton(text="DeepSeek-R1-Llama-70B", callback_data="deepseek-ai/DeepSeek-R1-Distill-Llama-70B",)],
@@ -40,7 +40,7 @@ class Buttons:
 
 
     @staticmethod
-    def get_setvismodel_keybord():
+    def get_setvismodel_inline_kb() -> InlineKeyboardButton:
         keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="Qwen2-VL-7B", callback_data="Qwen/Qwen2-VL-7B-Instruct")],
         [InlineKeyboardButton(text="Llama-3.2-90B-Vision", callback_data="meta-llama/Llama-3.2-90B-Vision-Instruct")],

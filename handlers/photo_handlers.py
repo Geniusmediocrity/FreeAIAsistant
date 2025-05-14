@@ -17,7 +17,7 @@ photo_router = Router(name=__name__)
 @photo_router.message(F.photo)
 @msg_handler
 async def handle_photo(message: types.Message):
-    """Users photo handler """
+    """Users photo handler"""
     user_id = message.from_user.id
     process_mes = await message.reply(text=Messages.ANSWER_PROCESSING.format(message.from_user.username, "60"), parse_mode="HTML")
     question = CorrectMessages.translate_to_english(text=message.caption) if message.caption else "What is in this image?"

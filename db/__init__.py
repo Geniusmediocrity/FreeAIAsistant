@@ -9,5 +9,5 @@ class DataBase(UserSettings, UserHistory):
         super().__init__()
         
     async def create_new_user(self, user_id: int):
-        await self.insert_new_user_uh(user_id)
         await self.insert_new_user_us(user_id)
+        await self.insert_new_user_uh(user_id)

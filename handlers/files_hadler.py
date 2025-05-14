@@ -38,7 +38,7 @@ async def handle_document(message: types.Message):
         await bot.delete_message(chat_id=message.chat.id, message_id=process_mes.message_id)
         return await message.reply(text=Messages.EXPANSION_ERROR, parse_mode="HTML")
 
-    prompt = f"{message.caption}\n{text}"
+    prompt = f"{message.caption}\n{file_path}\n{text}"
     bot_answer = await send_ai_request(message_text=prompt, user_id = message.from_user.id)
                 
     await bot.delete_message(chat_id=message.chat.id, message_id=process_mes.message_id)

@@ -10,7 +10,7 @@ class UserSettings(DbManager):
             await conn.execute(queries.CREATE_USER_SETTINGS_TABLE)
             
     #? Methods to work with users in user_settings
-    async def insert_new_user(self, user_id: int):
+    async def insert_new_user_us(self, user_id: int):
         """Make new user in user_settings"""
         async with self._pool.acquire() as conn:
             await conn.execute(queries.INSERT_NEW_USER, user_id)

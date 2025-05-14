@@ -1,5 +1,3 @@
-import logging
-
 from aiogram import Router
 from aiogram import types
 from aiogram.filters import CommandStart, Command
@@ -17,7 +15,7 @@ base_router = Router(name=__name__)
 async def command_start(message: types.Message):
     """Start using"""
     user_id = message.from_user.id
-    if not DB.is_user_exists(user_id):
+    if not await DB.is_user_exists(user_id):
         await DB.create_new_user(user_id=message.from_user.id)        
     else:
         await DB.clear_history(user_id)
@@ -39,19 +37,11 @@ async def command_restart(message: types.Message):
 @msg_handler
 async def help(message: types.Message):
     """Comand help"""
-    try:
-        await message.reply(text=Messages.HELP_MESSAGE, parse_mode="HTML")
-    except Exception as e:
-        await message.answer(text=Messages.ERROR_MESSAGE)
-        logging.exception(f"Ошибка в help: {e}")
+    await message.reply(text=Messages.HELP_MESSAGE, parse_mode="HTML")
     
 
 @base_router.message(Command("info"))
 @msg_handler
 async def info(message: types.Message):
     """Take info about bot"""
-    try:
-        await message.reply(text=Messages.INFO_MESSAGE, parse_mode="HTML")
-    except Exception as e:
-        await message.answer(text=Messages.ERROR_MESSAGE)
-        logging.exception(f"Ошибка в info: {e}")
+    await message.reply(text=Messages.INFO_MESSAGE, parse_mode="HTML")

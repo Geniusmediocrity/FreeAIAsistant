@@ -19,7 +19,7 @@ async def sendall(message: types.Message):
     if message.from_user.id == 7314948275:
         text = message.text[9:]
         tasks = []
-        for user_id in DB.get_all_users():
+        for user_id in await DB.get_all_users():
             tasks.append(send_message_to_user(user_id, text))
 
         await gather(*tasks, return_exceptions=True)
@@ -33,4 +33,4 @@ async def send_message_to_user(user_id: int, text: str):
     except Exception:
         await bot.send_message(chat_id= 7314948275,text=f"Пользователь {user_id} был удален в связи с некативностью", parse_mode="HTML")
         logging.info(f"Пользователь {user_id} был удален в связи с некативностью")
-        DB.delete_db_user(user_id=user_id)
+        await DB.delete_db_user(user_id=user_id)

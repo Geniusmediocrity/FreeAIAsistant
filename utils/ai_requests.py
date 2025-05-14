@@ -6,8 +6,8 @@ from configs import HEADERS, URL, DB
 async def send_ai_request(message_text: str, user_id) -> dict:
     """send POST-request for AI API, get JSON-answer, and commit question and answer on Database"""    
     
-    model = DB.get_users_model(user_id=user_id)
-    messages = DB.get_users_history(user_id=user_id)
+    model = await DB.get_users_model(user_id=user_id)
+    messages = list(await DB.get_users_history(user_id=user_id))
     messages.insert(0, {"role": "system", "content": "You're a helpful AI assistant"})
     messages.append({"role": "user", "content": message_text})
     
@@ -27,7 +27,7 @@ async def send_ai_request(message_text: str, user_id) -> dict:
     result = text.split('</think>\n\n')[1] if "</think>" in text else text
     
     messages.append({"role": "asistant", "content": result})
-    DB.update_user_history(user_id=user_id, conversation=messages[1:])
+    await DB.update_user_history(user_id=user_id, conversation=messages[1:])
     
     return result
 

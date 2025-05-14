@@ -83,11 +83,11 @@ class UsersHistoryTable:
             
     UPDATE_USERS_HISTORY = """
             UPDATE users_history
-            SET user_history = $1
+            SET conversation = $1
             WHERE user_id = $2"""
             
     CLEAR_USERS_HISTORY = """
             UPDATE users_history 
-            SET history = '[]'
+            SET conversation = DEFAULT
             WHERE user_id = $1
             """

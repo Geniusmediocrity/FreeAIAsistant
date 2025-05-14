@@ -1,6 +1,8 @@
 from configs import URL, HEADERS
 
 
+# TODO подключить другой API для перевода
+
 class CorrectMessages:
     
     translate_to_english = 0

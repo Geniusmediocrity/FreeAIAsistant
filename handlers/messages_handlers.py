@@ -21,10 +21,7 @@ async def handle_messages(message: types.Message):
     """Handler of users requests:
     Main bot function"""
     process_mes = await message.reply(text=Messages.ANSWER_PROCESSING.format(message.from_user.username, "50"), parse_mode="HTML")
-    data = await send_ai_request(message_text=message.text)
-
-    text = data['choices'][0]['message']['content']
-    bot_answer = text.split('</think>\n\n')[1] if "</think>" in text else text
+    bot_answer = await send_ai_request(message_text=message.text, user_id=message.from_user.id)
 
     await bot.delete_message(chat_id=message.chat.id, message_id=process_mes.message_id)
 

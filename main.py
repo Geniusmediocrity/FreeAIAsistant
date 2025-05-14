@@ -1,7 +1,7 @@
 import asyncio
 from aiogram.methods import DeleteWebhook
 
-from configs import bot, dp
+from configs import bot, dp, DB
 from logs.events_logging import setup_logger
 from handlers import main_handler_router
 
@@ -12,9 +12,12 @@ dp.include_router(main_handler_router)
 
 async def main():
     """Main script"""
-    setup_logger()
-    await bot(DeleteWebhook(drop_pending_updates=True))
-    await dp.start_polling(bot)
+    try:
+        setup_logger()
+        await bot(DeleteWebhook(drop_pending_updates=True))
+        await dp.start_polling(bot)
+    except KeyboardInterrupt:
+        await DB.disconnect()
 
 if __name__ == "__main__":
     asyncio.run(main())

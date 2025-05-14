@@ -16,7 +16,7 @@ models_router = Router(name=__name__)
 @msg_handler
 async def get_model(message: types.Message):
     """See using model"""
-    model = DB.read_db_model(user_id=message.from_user.id)
+    model = DB.get_users_model(user_id=message.from_user.id)
     await message.reply(text=f"Текущая модель: {model}", parse_mode="HTML")
     
 
@@ -24,7 +24,7 @@ async def get_model(message: types.Message):
 @msg_handler
 async def get_visualmodel(message: types.Message):
     """see using visualmodel"""
-    visual_model = DB.read_db_visualmodel(user_id=message.from_user.id)
+    visual_model = DB.get_users_visual_model(user_id=message.from_user.id)
     await message.reply(text=f"Текущая модель для работы с фото: {visual_model}", parse_mode="HTML")
     
     
@@ -52,9 +52,9 @@ async def callback_setmodel(callback: types.CallbackQuery):
     data = callback.data
     if data != "cancel":
         if data in ["meta-llama/Llama-3.2-90B-Vision-Instruct", "Qwen/Qwen2-VL-7B-Instruct"]:
-            DB.update_db_visualmodel(user_id=callback.from_user.id, visualmodel=data)
+            DB.update_users_ai_visual_model(user_id=callback.from_user.id, new_ai_visual_model=data)
         else:
-            DB.update_db_model(user_id=callback.from_user.id, model=data)
+            DB.update_users_ai_model(user_id=callback.from_user.id, new_ai_model=data)
         await callback.message.answer(text=f"Текущая модель: {data}", parse_mode="HTML")
     else:
         await callback.message.answer(text="/cancel", parse_mode="HTML")

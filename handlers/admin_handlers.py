@@ -19,12 +19,11 @@ async def sendall(message: types.Message):
     if message.from_user.id == 7314948275:
         text = message.text[9:]
         tasks = []
-        for user_id in DB.get_db_users():
+        for user_id in DB.get_all_users():
             tasks.append(send_message_to_user(user_id, text))
 
         await gather(*tasks, return_exceptions=True)
         await message.reply("Рассылка завершена успешно")
-    print(message.from_user.id)
 
 
 async def send_message_to_user(user_id: int, text: str):

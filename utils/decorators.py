@@ -14,9 +14,11 @@ def msg_handler(func: callable) -> callable:
         try:
             
             await func(message, *args, **kwargs)
+            
             if func.__name__ in ('handle_messages', 'handle_photo', 'handle_document'):
                 logging.info(f"@{message.from_user.username}({message.from_user.id}) succes question: \
 {message.text or (f'Type: {message.content_type};  Caption: {message.caption}')}")
+                
             else:
                 logging.info(f"@{message.from_user.username}({message.from_user.id}) succes command: {message.text}")
                 

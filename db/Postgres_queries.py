@@ -1,91 +1,93 @@
-class UserQueries:
-    GET_DB_USERS = """ 
-            SELECT user_id 
-            FROM users_model; 
-            """
-
-    DELETE_DB_USERS = """ 
-            DELETE FROM users_model 
-            WHERE user_id = %s; 
-            """
+class UserSettingTable:
+    """This class stores queries to the user_settings database."""
     
-    CLEAR_USERS = """
-            DELETE * FROM users_model 
-            WHERE user_id = %s
-            """
-
-    CREATE_TABLE_USERS_MODEL = """
-            CREATE TABLE IF NOT EXISTS users_model
+    CREATE_USER_SETTINGS_TABLE = """
+            CREATE TABLE "user_settings"
             (
-                user_id BIGINT PRIMARY KEY,
-                stars_donations INTEGER DEFAULT 0 CONSTRAINT positive_price CHECK(stars_donations >= 0),
-                model VARCHAR(65) NOT NULL,
-                visual_model TEXT NOT NULL
+            	user_id BIGINT PRIMARY KEY,
+            	ai_model VARCHAR(58) DEFAULT 'deepseek-ai/DeepSeek-R1',
+            	ai_visual_model VARCHAR(40) DEFAULT 'Qwen/Qwen2-VL-7B-Instruct',
+            	created_at TIMESTAMP DEFAULT NOW()
             );
             """
-    
-    
-class ModelsQueries:
-    START_DB_MODEL = """ 
-            INSERT INTO users_model(user_id, model, visualmodel) 
-            VALUES (%s, %s, %s)
-            ON CONFLICT (user_id) DO UPDATE SET
-            model = %s,
-            visualmodel = %s
-            """
+            
+    INSERT_NEW_USER = """
+            INSERT INTO user_settings (user_id)
+            VALUES ($1);"""
+            
+    IS_USER_EXISTS = """
+            SELECT user_id
+            FROM user_settings
+            WHERE user_id = $1"""
         
-    GET_DB_MODEL = """ 
-            SELECT model 
-            FROM users_model 
-            WHERE user_id = %s
-            """
-    
-    UPDATE_DB_MODEL = """ 
-            UPDATE users_model 
-            SET model = %s 
-            WHERE user_id = %s 
+    DELETE_USER = """ 
+            DELETE FROM user_settings
+            WHERE user_id = $1; 
             """
             
-    GET_DB_VISUALMODEL = """ 
-            SELECT visualmodel 
-            FROM users_model 
-            WHERE user_id = %s
+    GET_USERS_MODEL = """ 
+            SELECT ai_model 
+            FROM user_settings
+            WHERE user_id = $1; 
             """
             
-    UPDATE_DB_VISUALMODEL = """ 
-            UPDATE users_model 
-            SET visualmodel = %s WHERE 
-            user_id = %s 
+    GET_USERS_VISUAL_MODEL = """ 
+            SELECT ai_visual_model 
+            FROM user_settings
+            WHERE user_id = $1; 
             """
             
-class HistoryQueries:
-    
-    SAVE_DB_HISTORY = """ 
-            INSERT INTO chat_history (user_id, role, content) 
-            VALUES (%s, %s, %s)
-            """
+    GET_ALL_USERS = """
+            SELECT user_id
+            FROM user_settings"""
             
-    LOAD_DB_HISTORY = """
-            SELECT role, content FROM chat_history 
-            WHERE user_id = %s
-            ORDER BY timestamp DESC 
-            LIMIT %s; 
-            """
+    RESET_USEER_SETTINGS = """
+            UPDATE user_settings
+            SET
+                ai_model = DEFAULT,
+                ai_visual_model = DEFAULT
+            WHERE user_id = $1;"""
             
-    CLEAR_DB_HISTORY = """
-            DELETE FROM chat_history 
-            WHERE user_id = %s; 
+    UPDATE_AI_MODEL = """
+            UPDATE user_settings
+            SET ai_model = $1
+            WHERE user_id = $2
             """
-            
-    CREATE_TABLE_CHAT_HISTORY = '''
-            CREATE TABLE IF NOT EXISTS chat_history(
-                user_id BIGINT UNSIGNED PRIMARY KEY,
-                role TEXT NOT NULL,
-                content TEXT NOT NULL,
-                timestamp DATETIME
-            )
-            '''
+    UPDATE_AI_VISUAL_MODEL = """
+            UPDATE user_settings
+            SET ai_visual_model = $1
+            WHERE user_id = $2;
+            """
             
     
-            
+class UsersHistoryTable:
+    """This class stores queries to the users_history database."""
     
+    CREATE_USERS_HISTORY_TABLE = """
+            CREATE TABLE users_history
+            (
+            	user_id BIGINT PRIMARY KEY REFERENCES user_settings (user_id) ON UPDATE CASCADE ON DELETE CASCADE,
+                conversation JSONB NOT NULL DEFAULT '[]'
+            );
+            """
+            
+    INSERT_NEW_USER_HISTORY_TABLE = """
+            INSERT INTO users_history (user_id)
+            VALUES ($1);"""
+            
+    GET_USERS_HISTORY_TABLE= """
+            SELECT conversation
+            FROM users_history
+            WHERE user_id = $1;
+            """
+            
+    UPDATE_USERS_HISTORY = """
+            UPDATE users_history
+            SET user_history = $1
+            WHERE user_id = $2"""
+            
+    CLEAR_USERS_HISTORY = """
+            UPDATE users_history 
+            SET history = '[]'
+            WHERE user_id = $1
+            """

@@ -8,7 +8,7 @@ from utils.decorators import msg_handler
 from configs import DB, bot, TELEGRAM_TOKEN
 
 
-# TODO: Накинуть декораторы db и Requests и CorrectMessages
+# TODO: Накинуть db и Requests и CorrectMessages Изменить
 
 
 photo_router = Router(name=__name__)

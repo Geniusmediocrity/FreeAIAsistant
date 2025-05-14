@@ -39,10 +39,7 @@ async def handle_document(message: types.Message):
         return await message.reply(text=Messages.EXPANSION_ERROR, parse_mode="HTML")
 
     prompt = f"{message.caption}\n{text}"
-    data = await send_ai_request(message_text=prompt)
-
-    text = data['choices'][0]['message']['content']
-    bot_answer = text.split('</think>\n\n')[1] if "</think>" in text else text
+    bot_answer = await send_ai_request(message_text=prompt, user_id = message.from_user.id)
                 
     await bot.delete_message(chat_id=message.chat.id, message_id=process_mes.message_id)
     

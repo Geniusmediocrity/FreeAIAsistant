@@ -16,23 +16,23 @@ base_router = Router(name=__name__)
 @msg_handler
 async def command_start(message: types.Message):
     """Start using"""
-    try:
-        DB.start_db_model(user_id=message.from_user.id)
-        await message.reply(text=Messages.START_MESSAGE, parse_mode = 'HTML')
-    except Exception as e:
-        await message.answer(text=Messages.ERROR_MESSAGE)
-        logging.exception(f"Ошибка в command_start: {e}")
-
+    user_id = message.from_user.id
+    if not DB.is_user_exists(user_id):
+        await DB.create_new_user(user_id=message.from_user.id)        
+    else:
+        await DB.clear_history(user_id)
+        await DB.reset_user_settings(user_id)
+    await message.reply(text=Messages.START_MESSAGE, parse_mode = 'HTML')
+    
+    
 @base_router.message(Command("restart"))
 @msg_handler
 async def command_restart(message: types.Message):
-    """⁡⁢⁣Comand start"""
-    try:
-        DB.start_db_model(user_id=message.from_user.id)
-        await message.reply(text=Messages.RESTART_MESSAGE, parse_mode = 'HTML')
-    except Exception as e:
-        await message.answer(text=Messages.ERROR_MESSAGE)
-        logging.exception(f"Ошибка в command_restart: {e}")
+    """⁡⁢⁣Comand restart"""
+    user_id = message.from_user.id
+    await DB.clear_history(user_id)
+    await DB.reset_user_settings(user_id)
+    await message.reply(text=Messages.RESTART_MESSAGE, parse_mode = 'HTML')
 
     
 @base_router.message(Command("help"))

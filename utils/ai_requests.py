@@ -3,10 +3,13 @@ import aiohttp
 from configs import HEADERS, URL, DB
 
 
-async def send_ai_request(message_text: str, user_id) -> dict:
+async def send_ai_request(message_text: str | list[dict], user_id: int, request_type="model") -> str:
     """send POST-request for AI API, get JSON-answer, and commit question and answer on Database"""    
-    
-    model = await DB.get_users_model(user_id=user_id)
+    if request_type == "model":
+        model = await DB.get_users_model(user_id=user_id)
+    else:
+        model = await DB.get_users_visual_model(user_id=user_id)
+        
     messages = list(await DB.get_users_history(user_id=user_id))
     messages.insert(0, {"role": "system", "content": "You're a helpful AI assistant"})
     messages.append({"role": "user", "content": message_text})

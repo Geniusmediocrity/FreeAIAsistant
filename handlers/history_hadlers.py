@@ -10,7 +10,7 @@ hist_router = Router(name=__name__)
 
 @hist_router.message(Command("clear"))
 @msg_handler
-async def clear(message: types.Message):
+async def clear(message: types.Message)  -> types.Message:
     """Clear DataBase history"""
     await DB.clear_history(user_id=message.from_user.id)
     await message.reply(text="История запросов успешно очищена 🧹", parse_mode="HTML")

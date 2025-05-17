@@ -41,7 +41,7 @@ async def __read_xlsx_file(file_path: str) -> str:
 async def read_file(file_path: str) -> str:
     """Основная функция для выбора типа файла и его чтения"""
     
-    if file_path.endswith(('.txt', '.js', '.py', '.java', '.css', '.html', '.log', '.c', '.c++', '.cc', '.Cs', '.cs', '.Csharp', '.csharp', '.xml', '.json', '.csv', '.cxx', '.cpp')):
+    if file_path.endswith(('.txt', '.js', '.py', '.java', '.css', '.html', '.log', '.xml', '.json', '.csv')):
         result = await __read_text_file(file_path)
     elif file_path.endswith('.docx'):
         result = await __read_docx_file(file_path)
@@ -64,14 +64,10 @@ async def read_file(file_path: str) -> str:
 # 6.  js
 # 7.  java
 # 8.  log
-# 9.  c
-# 10. c++
-# 11. cs
-# 12. csharp
-# 13. xlsx
-# 14. csv
-# 15. docx
-# 16. xml
+# 9. xlsx
+# 10. csv
+# 11. docx
+# 12. xml
 
 #? DONT KNOW:
-# 16. PDF
+# 13. PDF

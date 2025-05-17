@@ -13,12 +13,12 @@ class DbManager:
     def __init__(self):
         self.db_config = DSN
     
-    async def connect(self, min_size=1, max_size=15):
+    async def connect(self, min_size=1, max_size=15) -> None:
         """Database connection. Make pool conection"""
         self._pool = await asyncpg.create_pool(self.db_config, min_size=min_size, max_size=max_size)
         logging.info("The connection pool was connected succesful")
         
-    async def disconnect(self):
+    async def disconnect(self) -> None:
         """Close pool connection"""
         if self._pool:
             await self._pool.close()

@@ -15,7 +15,7 @@ files_router = Router(name=__name__)
 
 @files_router.message(F.document)
 @msg_handler
-async def handle_document(message: types.Message):
+async def handle_document(message: types.Message) -> types.Message:
     """Text documents handler"""
     document = message.document
     

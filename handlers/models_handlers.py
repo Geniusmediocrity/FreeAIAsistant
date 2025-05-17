@@ -14,7 +14,7 @@ models_router = Router(name=__name__)
 
 @models_router.message(Command("model"))
 @msg_handler
-async def get_model(message: types.Message):
+async def get_model(message: types.Message) -> types.Message:
     """See using model"""
     model = await DB.get_users_model(user_id=message.from_user.id)
     await message.reply(text=f"Текущая модель: {model}", parse_mode="HTML")
@@ -22,7 +22,7 @@ async def get_model(message: types.Message):
 
 @models_router.message(Command("visualmodel"))
 @msg_handler
-async def get_visualmodel(message: types.Message):
+async def get_visualmodel(message: types.Message) -> types.Message:
     """see using visualmodel"""
     visual_model = await DB.get_users_visual_model(user_id=message.from_user.id)
     await message.reply(text=f"Текущая модель для работы с фото: {visual_model}", parse_mode="HTML")
@@ -32,14 +32,14 @@ async def get_visualmodel(message: types.Message):
 
 @models_router.message(Command("setmodel"))  
 @msg_handler  
-async def setmodel(message: types.Message):
+async def setmodel(message: types.Message) -> types.Message:
     """Set model for using"""
     await message.reply(text="Выбери модель:", reply_markup=Buttons.get_setmodel_inline_kb())
     
     
 @models_router.message(Command("setvisualmodel"))    
 @msg_handler
-async def setvisualmodel(message: types.Message):
+async def setvisualmodel(message: types.Message) -> types.Message:
     """Set visual model for using"""
     await message.reply(text="Выбери модель:", reply_markup=Buttons.get_setvismodel_inline_kb())
 

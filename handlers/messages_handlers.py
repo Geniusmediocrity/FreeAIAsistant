@@ -13,7 +13,7 @@ messages_router = Router(name=__name__)
 
 @messages_router.message(F.text)
 @msg_handler
-async def handle_messages(message: types.Message):
+async def handle_messages(message: types.Message)  -> types.Message:
     """Handler of users requests:
     Main bot function"""
     process_mes = await message.reply(text=Messages.ANSWER_PROCESSING.format(message.from_user.username, "50"), parse_mode="HTML")

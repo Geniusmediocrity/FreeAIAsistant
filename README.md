@@ -1,4 +1,4 @@
-# [Free AI Asistant](https://t.me/FreeNeuroChat_bot "Telegram bot")(eng)
+# [Free AI Asistant v1.0.0a](https://t.me/FreeNeuroChat_bot "Telegram bot")(eng)
 
 ## Description
 
@@ -85,29 +85,9 @@ pip install -r pyconfig/requirements.txt
 7. **`main.py`**
    The main script of the project where the application starts. It initializes the bot, connects to the database, and launches the core components.
 
----
-
-## Roadmap for MVP Version (FreeAIAsist v1.0.0a)
-
-- [x] Create `configs` and switch to `dotenv`
-- [x] Reduce size of `main.py`
-- [x] Implement handlers
-- [x] Migrate to PostgreSQL
-- [x] Refactor database connection logic
-- [x] Change history storage type to JSONB
-- [x] Finalize support for working with files
-- [x] Add logging + decorator/handler for logging message handlers
-- [x] Improve file reading functionality (`read_files.py`)
-- [ ] Improve `correct_messages.py`
-- [ ] Improve `photo_handlers.py`
-- [x] Improve `models_handlers.py`
-- [x] Improve `history_handlers.py`
-- [x] Improve `base_handlers.py`
-- [x] Improve `admin_handlers.py`
-
 <hr>
 
-# [Free AI Asistant](https://t.me/FreeNeuroChat_bot "Telegram bot")(ru)
+# [Free AI Asistant v1.0.0a](https://t.me/FreeNeuroChat_bot "Telegram bot")(ru)
 <hr>
 
 ## Description
@@ -189,23 +169,3 @@ pip install -r pyconfig/requirements.txt
  
 7. **`main.py`**
     *Главный скрипт* проекта, где происходит запуск приложения. Здесь подключается  бот, подключается база данных и запускаются основные компоненты.
-
-<hr>
-
-## Планы для выпуска MVP версии (FreeAIAsist v1.0.0a):
-
-- [x] Создание configs. Переход на dotenv
-- [x] Уменьшени `main.py`
-- [x] Создание `handlers`
-- [x] Переделать на новую СУБД, на PostgreSQL
-- [x] Переделать подключение к СУБД и БД в целом
-- [x] Изменить тип хранения Истории запросов. Хранить в массиве
-- [x] Закончить наконец Возможность работы с файлами, а именно с текстом
-- [x] Добавить логирование + декоратор/хендлер для логирования хендлеров сообщений
-- [x] Добавить нормальное чтение файлов (`read_files.py`)
-- [ ] `correct_messages.py`
-- [ ] `photo_hadlers.py`
-- [x] `models_hadlers.py`
-- [x] `history_hadlers.py`
-- [x] `base_hadlers.py`
-- [x] `admin_hadlers.py`

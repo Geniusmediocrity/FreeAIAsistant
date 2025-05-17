@@ -1,5 +1,5 @@
 import logging
-from asyncio import gather
+import asyncio
 
 from aiogram import Router
 from aiogram import types
@@ -13,20 +13,18 @@ admin_router = Router(name=__name__)
     
 @admin_router.message(Command("sendall"))
 @msg_handler
-async def sendall(message: types.Message):
+async def sendall(message: types.Message) -> types.Message:
     """Mailing function. only for ADMINS using"""
     
     if message.from_user.id == 7314948275:
         text = message.text[9:]
-        tasks = []
         for user_id in await DB.get_all_users():
-            tasks.append(send_message_to_user(user_id, text))
-
-        await gather(*tasks, return_exceptions=True)
+            await send_message_to_user(user_id, text)
+            await asyncio.sleep(0.1)
         await message.reply("Рассылка завершена успешно")
 
 
-async def send_message_to_user(user_id: int, text: str):
+async def send_message_to_user(user_id: int, text: str) -> types.Message:
     """Sending message to user, what """
     try:
         await bot.send_message(chat_id=user_id, text=text)

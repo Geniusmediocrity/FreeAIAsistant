@@ -1,51 +1,28 @@
-from configs import URL, HEADERS
+from translate import Translator
 
-
-# TODO подключить другой API для перевода
 
 class CorrectMessages:
     
-    translate_to_english = 0
-    translate_to_rus = 0
-    
-    # @staticmethod
-    # def translate_to_english(text):
-    #     data = {
-    #         "model": "deepseek-ai/DeepSeek-R1",
-    #         "messages": [
-    #             {
-    #                 "role": "system",
-    #                 "content": "You're a helpful AI assistant"
-    #             },
-    #             {
-    #                 "role": "user",
-    #                 "content": f"Translate this text from Russian into English {text}. Print only the translated text and nothing else."
-    #             }
-    #     ]}
-    #     response = requests.post(URL, json=data, headers=HEADERS)
-    #     data = (response.json())['choices'][0]['message']['content'].split('</think>\n\n')[1]
-    #     return data
-
-    # @staticmethod
-    # def translate_to_rus(text):
-    #     data = {
-    #         "model": "deepseek-ai/DeepSeek-R1",
-    #         "messages": [
-    #             {
-    #                 "role": "system",
-    #                 "content": "Ты очень полезный высокоуровневый помощник"
-    #             },
-    #             {
-    #                 "role": "user",
-    #                 "content": f"Переведи данный текст на русский язык: {text}. Выведи только переведенный текст и нечего больше"
-    #             }
-    #     ]}
+    @staticmethod
+    def is_russian(text: str) -> bool:
+        """Check is text russian"""
+        for let in "абвгдеёжзийклмнопрстуфхцчшщъыьэюя":
+            if let in text:
+                return True
+        return False        
         
-    #     response = requests.post(URL, json=data, headers=HEADERS)
-    #     data = (response.json())['choices'][0]['message']['content'].split('</think>\n\n')[1]
-    #     return data
+    @staticmethod
+    def translate_text(text: str) -> str:
+        """Translate rus text to eng or vice a versa"""
+        
+        if CorrectMessages.is_russian(text=text):
+            translator = Translator(from_lang="ru", to_lang="en")
+        else:
+            translator = Translator(from_lang="en", to_lang="ru")
+
+        return translator.translate(text=text)
     
     @staticmethod
     def split_message(message: str, limit=4096):
-        """Разбивает текст на части, не превышающие limit."""
+        """Splits the text into parts that do not exceed the limit."""
         return [message[i: i+limit] for i in range(0, len(message), limit)]

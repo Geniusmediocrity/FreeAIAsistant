@@ -52,9 +52,9 @@ class UserSettings(DbManager):
     async def update_users_ai_model(self, user_id: int, new_ai_model: str):
         """Update current user ai_model on new_ai_model"""
         async with self._pool.acquire() as conn:
-            await conn.execute(queries.UPDATE_AI_MODEL, user_id, new_ai_model)
+            await conn.execute(queries.UPDATE_AI_MODEL, new_ai_model, user_id)
             
     async def update_users_ai_visual_model(self, user_id: int, new_ai_visual_model: str):
         """Update current user ai_model on new_ai_model"""
         async with self._pool.acquire() as conn:
-            await conn.execute(queries.UPDATE_AI_VISUAL_MODEL, user_id, new_ai_visual_model)
+            await conn.execute(queries.UPDATE_AI_VISUAL_MODEL, new_ai_visual_model, user_id)

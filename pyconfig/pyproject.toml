@@ -1,0 +1,20 @@
+[project]
+name = "FreeAIAsistant"
+version = "0.1.0"
+description = "This is a Telegram bot built using the official APIs of DeepSeek, Qwen, Ozone, Mistral, Microsoft, and more. It also supports the selection of various other AI models."
+authors = [
+    { name = "Alexey Zherdev", email = "lesal2767@gmail.com" }
+]
+keywords = ["telegram", "bot", "ai", "aiogram", "deepseek", "qwen", "llama-ai"]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "aiofiles>=24.1.0",
+    "aiogram>=3.20.0.post0",
+    "aiohttp>=3.11.18",
+    "asyncpg>=0.30.0",
+    "dotenv>=0.9.9",
+    "pandas>=2.2.3",
+    "pypdf2>=3.0.1",
+    "python-docx>=1.1.2",
+]

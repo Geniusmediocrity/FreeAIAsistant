@@ -45,7 +45,6 @@ async def setvisualmodel(message: types.Message):
 
 
 @models_router.callback_query()
-@msg_handler
 async def callback_setmodel(callback: types.CallbackQuery):
     """Callback Buttons for set model for using"""
     await callback.message.edit_reply_markup(reply_markup=None)

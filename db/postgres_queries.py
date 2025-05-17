@@ -6,8 +6,7 @@ class UserSettingTable:
             (
             	user_id BIGINT PRIMARY KEY,
             	ai_model VARCHAR(58) DEFAULT 'deepseek-ai/DeepSeek-R1',
-            	ai_visual_model VARCHAR(40) DEFAULT 'Qwen/Qwen2-VL-7B-Instruct',
-            	created_at TIMESTAMP DEFAULT NOW()
+            	ai_visual_model VARCHAR(40) DEFAULT 'Qwen/Qwen2-VL-7B-Instruct'
             );
             """
             

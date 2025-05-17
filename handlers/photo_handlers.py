@@ -5,10 +5,24 @@ from aiogram import F
 from utils.messages import Messages
 from utils.correct_messages import CorrectMessages
 from utils.decorators import msg_handler
-from configs import DB, bot, TELEGRAM_TOKEN
+from configs import DB, bot, __TELEGRAM_TOKEN
 
 
-# TODO: Накинуть db и Requests и CorrectMessages Изменить
+# TODO: use db
+# TODO: use Requests
+# TODO: use CorrectMessages
+# TODO: Change func
+# TODO: Make a note: 
+# Requirement	         |  Details
+# -----------------------+----------------------------------------------------
+# Format	             |  JPEG, PNG, WEBP, or GIF (static)
+# Max File Size	         |  20MB
+# Resolution	         |  At least 512x512 pixels recommended
+# Max Dimensions	     |  4096×4096 pixels
+# Accessibility	         |  If using a URL, ensure it is publicly accessible
+# Multi-Image Support	 |  Up to 10 images per request
+
+
 
 
 photo_router = Router(name=__name__)
@@ -17,7 +31,7 @@ photo_router = Router(name=__name__)
 @photo_router.message(F.photo)
 @msg_handler
 async def handle_photo(message: types.Message):
-    """Users photo handler"""
+    """Users photo handler 20MB"""
     user_id = message.from_user.id
     process_mes = await message.reply(text=Messages.ANSWER_PROCESSING.format(message.from_user.username, "60"), parse_mode="HTML")
     question = CorrectMessages.translate_to_english(text=message.caption) if message.caption else "What is in this image?"
@@ -25,7 +39,7 @@ async def handle_photo(message: types.Message):
     file_id = message.photo[-1].file_id # ⁡⁢⁣⁣Берем фото лучшего качества⁡
     file = await bot.get_file(file_id)
     file_path = file.file_path
-    file_url = f"https://api.telegram.org/file/bot{TELEGRAM_TOKEN}/{file_path}" # ⁡⁢⁣⁣Получем ссылку на изображение⁡
+    file_url = f"https://api.telegram.org/file/bot{__TELEGRAM_TOKEN}/{file_path}" # ⁡⁢⁣⁣Получем ссылку на изображение⁡
     
     print("-" * 185)
     print(f"{user_id} photo: {file_url}\nquestion: {question}") #? для вывода информации о запросе пользователя

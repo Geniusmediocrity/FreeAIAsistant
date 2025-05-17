@@ -18,7 +18,7 @@ class DbManager:
         self._pool = await asyncpg.create_pool(self.db_config, min_size=min_size, max_size=max_size)
         logging.info("The connection pool was connected succesful")
         
-    async def disconect(self):
+    async def disconnect(self):
         """Close pool connection"""
         if self._pool:
             await self._pool.close()

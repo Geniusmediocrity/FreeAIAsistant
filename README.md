@@ -1,7 +1,7 @@
 # [Free AI Asistant v1.0.0a](https://t.me/FreeNeuroChat_bot "Telegram bot")(eng)
 
 ## Description
-
+Used API: [io.net](https://io.net/)
 This is a Telegram bot built using the official *APIs of DeepSeek, Qwen, Ozone, Mistral, Microsoft*, and more. It also supports the selection of various other AI models.
 
 The bot is **completely free to use**.
@@ -91,7 +91,7 @@ pip install -r pyconfig/requirements.txt
 <hr>
 
 ## Description
-
+Используемое API: [io.net](https://io.net/)
 Это телеграмм бот работающий через официальный *API DeepSeek, Qwen, Ozone, Mistral, microsoft*, а также доступен выбор других ИИ моделей.
 
 Бот **полностью бесплатный**.

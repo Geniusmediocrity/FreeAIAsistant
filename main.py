@@ -12,13 +12,12 @@ dp.include_router(main_handler_router)
 
 async def main():
     """Main script"""
-    try:
-        setup_logger()
-        await DB.connect()
-        await bot(DeleteWebhook(drop_pending_updates=True))
-        await dp.start_polling(bot)
-    except KeyboardInterrupt:
-        await DB.disconnect()
+    # try:
+    setup_logger()
+    await DB.connect()
+    await bot(DeleteWebhook(drop_pending_updates=True))
+    await dp.start_polling(bot)
+    await DB.disconnect()
 
 if __name__ == "__main__":
     asyncio.run(main())

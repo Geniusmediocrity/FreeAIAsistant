@@ -9,23 +9,6 @@ from utils.ai_requests import send_ai_request
 from configs import bot, __TELEGRAM_TOKEN
 
 
-# TODO: use db
-# TODO: use Requests
-# TODO: use CorrectMessages
-# TODO: Change func
-# TODO: Make a note: 
-# Requirement	         |  Details
-# -----------------------+----------------------------------------------------
-# Format	             |  JPEG, PNG, WEBP, or GIF (static)
-# Max File Size	         |  20MB
-# Resolution	         |  At least 512x512 pixels recommended
-# Max Dimensions	     |  4096×4096 pixels
-# Accessibility	         |  If using a URL, ensure it is publicly accessible
-# Multi-Image Support	 |  Up to 10 images per request
-
-
-
-
 photo_router = Router(name=__name__)
 
 
